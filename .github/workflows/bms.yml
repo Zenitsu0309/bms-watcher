@@ -22,10 +22,6 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install requests
-      - name: Check Scene
-        env:
-          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-        run: python bms_watcher.py once
       - name: Check Avengers
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
