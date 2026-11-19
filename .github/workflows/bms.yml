@@ -1,0 +1,38 @@
+name: BMS watcher
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"      # every 5 minutes (GitHub's minimum; can run late)
+  workflow_dispatch:           # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write              # so it can save bms_state.json
+
+concurrency:
+  group: bms
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Check Scene
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python bms_watcher.py once
+      - name: Check Avengers
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python avengers_watcher.py once
+      - name: Save state
+        run: |
+          git config user.name "bms-bot"
+          git config user.email "bms-bot@users.noreply.github.com"
+          git add bms_state.json avengers_state.json || true
+          git diff --cached --quiet || (git commit -m "update state" && git push)
