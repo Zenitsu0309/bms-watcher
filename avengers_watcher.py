@@ -21,8 +21,8 @@ import requests
 # ---------- settings you can change ----------
 MOVIE_TITLE = "avengers: doomsday"          # matched case-insensitively, whole title
 MOVIE_LANGUAGE = "english"
-EVENT_CODE = "ET00439706"      # Avengers: Doomsday (English)
-NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "NTFY_PLAYSTATIONVOUCHER")  # cloud: set as a secret
+EVENT_CODE = "ET00526306"      # Avengers: Doomsday (English)
+NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "NTFY_BOOKMYSHOWNOT")  # cloud: set as a secret
 POLL_SECONDS = 60
 MAX_DATES = 4                  # how many upcoming dates to check once booking opens
 
